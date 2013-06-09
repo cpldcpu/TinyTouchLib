@@ -18,10 +18,7 @@ uint8_t timer;
 #endif
 /*
 			Capacitive sensing using charge sharing between 
-			the S/H capacitor and an external sensing pad
-			
-			Reference	Analog0	= PB0
-			Sense		Analog1 = PB1
+			the S/H capacitor and an external sensing pad			
 */	
 
 void	tinytouch_init(void) {
@@ -74,22 +71,31 @@ uint8_t tinytouch_sense(void) {
 		return tt_on;
 	}
 }	
+/*
+			Reference	Analog0	= PB0
+			Sense		Analog1 = PB1	
+			
+#define tt_refpin 0		// Use PB0 as reference pin
+#define tt_refadc 0		// Use ADC0 as reference ADC input
+#define tt_sensepin 1	// Use PB1 as sense pin
+#define tt_senseadc 1	// Use ADC1 as sense ADC input			
+			
+*/
 
 uint8_t tinytouch_adc(void) {	
 
 	uint8_t dat1,dat2;
 
 	// Precharge Low
-	ADMUX	=0x00;	// Charge S/H cap from Analog0		
-	PORTB |= _BV(PB0);		// Charge S/H Cap 
-	PORTB &=~_BV(PB1);		// Discharge Pad (0)
-	DDRB  |= _BV(PB0)|_BV(PB1);
+	ADMUX	=tt_refadc;	// connect S/H cap to reference pin	
+	PORTB |= _BV(tt_refpin);		// Charge S/H Cap 
+	PORTB &=~_BV(tt_sensepin);		// Discharge Pad (0)
+	DDRB  |= _BV(tt_refpin)|_BV(tt_sensepin);
 		
 	_delay_us(32);
 	
-	DDRB  &=~(_BV(PB1));	// float pad input, note that pull up is off.
-	ADMUX	=0x01;			// Read Cext from Analog2
-							// additional delay due to ADC logic
+	DDRB  &=~(_BV(tt_sensepin));	// float pad input, note that pull up is off.
+	ADMUX	=tt_senseadc;	// Connect sense input to adc
 		
 	ADCSRA	|=_BV(ADSC); // Start conversion	
 	while (!(ADCSRA&_BV(ADIF)));		
@@ -98,17 +104,16 @@ uint8_t tinytouch_adc(void) {
 	dat1=ADCL;
 
 	// Precharge High
-	ADMUX	=0x00;	// Charge S/H cap from Analog0
-	PORTB &=~_BV(PB0);		// Discharge S/H Cap
-	PORTB |= _BV(PB1);		// Charge Pad 
-	DDRB  |= _BV(PB0)|_BV(PB1);
+	ADMUX	=tt_refadc;	// connect S/H cap to reference pin
+	PORTB &=~_BV(tt_refpin);		// Discharge S/H Cap
+	PORTB |= _BV(tt_sensepin);		// Charge Pad 
+	DDRB  |= _BV(tt_refpin)|_BV(tt_sensepin);
 			
 	_delay_us(32);
 
-	DDRB  &=~(_BV(PB1));	// float pad input input
-	PORTB &=~_BV(PB1);		// pull up off
-	ADMUX	=0x01;			// Read Cext from Analog1
-							// additional delay due to ADC logic
+	DDRB  &=~(_BV(tt_sensepin));	// float pad input input
+	PORTB &=~_BV(tt_sensepin);		// pull up off
+	ADMUX	=tt_senseadc;	// Connect sense input to adc
 							
 	ADCSRA	|=_BV(ADSC); // Start conversion	
 	while (!(ADCSRA&_BV(ADIF)));

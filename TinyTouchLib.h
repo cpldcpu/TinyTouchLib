@@ -1,10 +1,10 @@
 /*
  * TinyTouchLib.h
  *
- * Created: 09.06.2013 17:25:47			-	v0.1 Initial release
+ * Created: 09.06.2013 17:25:47			-	v0.1 Initial release (Attiny 10)
+ *			10.06.2013					- 	v0.2 ported to ATtiny 25/45/85 and ATtiny13			
  *  Author: Tim (cpldcpu@gmail.com) 
  */ 
-
 
 #ifndef TINYTOUCHLIB_H_
 #define TINYTOUCHLIB_H_
@@ -24,7 +24,7 @@ enum {tt_off=0,tt_on,tt_push,tt_release,tt_timeout};
 // Setting the "off" value higher will make the touch button less likely
 // to be "stuck". Too high values can lead to oscillations.
 
-#define touch_threshold_on 70
+#define touch_threshold_on 60
 #define touch_threshold_off 20
 
 // If the touch button is pressed, the bias value is not updated
@@ -47,13 +47,13 @@ enum {tt_off=0,tt_on,tt_push,tt_release,tt_timeout};
 // The sense pin is connected to the touch-button. To improve noise immunity
 // a series resistor can be used.
 
-// The pin number corresponds to the analog input number ADCx. The port
-// is chosen automatically. (PORTB on ATtiny 5/10/13/25/45/85)
+// The pin number must match the corresponding analog input number ADCx. 
+// Default port is PORTB. (ATtiny 5/10/13/25/45/85)
 
-#define tt_refpin 0		// Use PB0 as reference pin
-#define tt_refadc 0		// Use ADC0 as reference ADC input
-#define tt_sensepin 1	// Use PB1 as sense pin
-#define tt_senseadc 1	// Use ADC1 as sense ADC input
+#define tt_refpin 2		// Use PB2 as reference pin
+#define tt_refadc 1		// Use ADC1 as reference ADC input
+#define tt_sensepin 3	// Use PB3 as sense pin
+#define tt_senseadc 3	// Use ADC3 as sense ADC input
 			
 //////////////////////////////////////////////////////////////////////////
 //

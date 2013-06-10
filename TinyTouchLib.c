@@ -1,10 +1,12 @@
 /*
  * tinytouchlib.c
  *
- * Created: 09.06.2013 17:25:47			-	v0.1 Initial release
+ * Created: 09.06.2013 17:25:47			-	v0.1 Initial release (ATtiny 10)
+ *			10.06.2013					- 	v0.2 ported to ATtiny 25/45/85 and ATtiny13
  *  Author: Tim (cpldcpu@gmail.com)
  */ 
 
+ 
 #include "TinyTouchLib.h"
 #include <util/delay.h>
 
@@ -22,8 +24,10 @@ uint8_t timer;
 */	
 
 void	tinytouch_init(void) {
-	
+
+#ifndef __AVR_ATtiny13__	
 	PRR		&=~_BV(PRADC);
+#endif	
 	ADCSRA	=_BV(ADEN)|_BV(ADPS2)|_BV(ADPS1); // Enable ADC, Set prescaler to 64
 		
 	bias=tinytouch_adc()<<8;
@@ -71,16 +75,6 @@ uint8_t tinytouch_sense(void) {
 		return tt_on;
 	}
 }	
-/*
-			Reference	Analog0	= PB0
-			Sense		Analog1 = PB1	
-			
-#define tt_refpin 0		// Use PB0 as reference pin
-#define tt_refadc 0		// Use ADC0 as reference ADC input
-#define tt_sensepin 1	// Use PB1 as sense pin
-#define tt_senseadc 1	// Use ADC1 as sense ADC input			
-			
-*/
 
 uint8_t tinytouch_adc(void) {	
 
@@ -95,16 +89,25 @@ uint8_t tinytouch_adc(void) {
 	_delay_us(32);
 	
 	DDRB  &=~(_BV(tt_sensepin));	// float pad input, note that pull up is off.
+	
+#ifdef __AVR_ATtiny10__
 	ADMUX	=tt_senseadc;	// Connect sense input to adc
+#else
+	ADMUX	=tt_senseadc|_BV(ADLAR);	// Connect sense input to adc
+#endif
 		
 	ADCSRA	|=_BV(ADSC); // Start conversion	
 	while (!(ADCSRA&_BV(ADIF)));		
 	ADCSRA	|=_BV(ADIF); // Clear ADIF
 
+#ifdef __AVR_ATtiny10__
 	dat1=ADCL;
+#else
+	dat1=ADCH;
+#endif
 
 	// Precharge High
-	ADMUX	=tt_refadc;	// connect S/H cap to reference pin
+	ADMUX  =tt_refadc;	// connect S/H cap to reference pin
 	PORTB &=~_BV(tt_refpin);		// Discharge S/H Cap
 	PORTB |= _BV(tt_sensepin);		// Charge Pad 
 	DDRB  |= _BV(tt_refpin)|_BV(tt_sensepin);
@@ -113,13 +116,23 @@ uint8_t tinytouch_adc(void) {
 
 	DDRB  &=~(_BV(tt_sensepin));	// float pad input input
 	PORTB &=~_BV(tt_sensepin);		// pull up off
+
+	#ifdef __AVR_ATtiny10__
 	ADMUX	=tt_senseadc;	// Connect sense input to adc
+#else
+	ADMUX	=tt_senseadc|_BV(ADLAR);	// Connect sense input to adc
+#endif
 							
 	ADCSRA	|=_BV(ADSC); // Start conversion	
 	while (!(ADCSRA&_BV(ADIF)));
 	ADCSRA	|=_BV(ADIF); // Clear ADIF
 
+#ifdef __AVR_ATtiny10__
 	dat2=ADCL;
+#else
+	dat2=ADCH;
+#endif
+	
 
 	return dat2-dat1;
 }

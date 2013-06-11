@@ -93,3 +93,31 @@ analog to digital conversions with active waiting. This may take several ms.
 #define tt_senseadc 3	// Use ADC3 as sense ADC input
 ```
 
+## Example ##
+
+This example implements a touch button on PB3 to toggle a LED connected to PB4.
+
+```
+#include <avr/io.h>
+#include <util/delay.h>
+#include "tinytouchlib.h"
+
+int main(void)
+{
+  CLKPR=_BV(CLKPCE);
+	CLKPR=0;			// set clock prescaler to 1 (attiny 25/45/85/24/44/84/13/13A)		
+
+	DDRB=_BV(PB4);		// Enable LED output pin
+	
+	tinytouch_init();
+	
+	while(1) {
+		if (tinytouch_sense()==tt_push) {PORTB^=_BV(PB4);}  // Toggle LED on touch event		
+		_delay_ms(10);	
+	}	
+}
+
+```
+
+
+

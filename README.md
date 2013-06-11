@@ -2,7 +2,7 @@ TinyTouchLib
 ============
 
 This library provides functions for touch-button sensing on ATtiny microcontrollers with integrated ADC. 
-It implements a charge sharing approach that does not required additonal external components.
+It implements a charge sharing approach similar to Atmels Qtouch ADC that does not require additonal external components.
 
 #### Supported Devices ####
 

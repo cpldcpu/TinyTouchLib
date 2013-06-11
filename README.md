@@ -13,8 +13,8 @@ The library performs automatic bias adjustment to the touch button capacitance a
 | ATtiny 5/10 | X      |       |         |       |
 | ATtiny 13A |  X      |        | |   
 | ATtiny 25/45/85 |  X      |        | |   
-| ATtiny 24/44/85 |        |  X      | ADC on wrong port |   
-| ATtiny 261/461/861 |        |  X      | ADC on wrong port |   
+| ATtiny 24/44/85 |        |  X      | may be supported later |   
+| ATtiny 261/461/861 |        |  X      | may be supported later |   
 
 
 ## Library Functions ##

@@ -5,6 +5,8 @@ This library provides functions for touch-button sensing on ATtiny microcontroll
 It implements a charge sharing approach similar to Atmels Qtouch ADC that does not require additonal external components.
 The library performs automatic bias adjustment to the touch button capacitance and should therefore be immune to drift.
 
+You can example app [here](https://github.com/cpldcpu/TinyTouchButton).
+
 #### Supported Devices ####
 
 | Device             | Support  | No Support  | Comment | 

@@ -89,7 +89,7 @@ uint8_t tinytouch_adc(void) {
 	_delay_us(32);
 	
 	DDRB  &=~(_BV(tt_sensepin));	// float pad input, note that pull up is off.
-	
+
 #ifdef __AVR_ATtiny10__
 	ADMUX	=tt_senseadc;	// Connect sense input to adc
 #else
@@ -117,7 +117,7 @@ uint8_t tinytouch_adc(void) {
 	DDRB  &=~(_BV(tt_sensepin));	// float pad input input
 	PORTB &=~_BV(tt_sensepin);		// pull up off
 
-	#ifdef __AVR_ATtiny10__
+#ifdef __AVR_ATtiny10__
 	ADMUX	=tt_senseadc;	// Connect sense input to adc
 #else
 	ADMUX	=tt_senseadc|_BV(ADLAR);	// Connect sense input to adc

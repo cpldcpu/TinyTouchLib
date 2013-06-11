@@ -4,7 +4,7 @@
  TinyTouchLibrary Example
  
  Hardware:
-	- Attiny 85
+	- Attiny 13A/25/45/85
 	- LED on PB4
 	- Touchbutton on PB3
  */ 

@@ -15,7 +15,7 @@ You can find an example app [here](https://github.com/cpldcpu/TinyTouchButton).
 | ATtiny 5/10 | X      |       |         |       |
 | ATtiny 13A |  X      |        | |   
 | ATtiny 25/45/85 |  X      |        | |   
-| ATtiny 24/44/85 |        |  X      | may be supported later |   
+| ATtiny 24/44/84 |        |  X      | may be supported later |   
 | ATtiny 261/461/861 |        |  X      | may be supported later |   
 
 

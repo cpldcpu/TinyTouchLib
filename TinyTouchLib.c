@@ -66,7 +66,7 @@ uint8_t tinytouch_sense(void) {
 		}
 
 #if touch_timeout>0		
-		if (timer==255) {
+		if (timer==touch_timeout) {
 			bias=tinytouch_adc()<<8;			
 			return tt_timeout;
 		} 

@@ -121,6 +121,3 @@ int main(void)
 }
 
 ```
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/10ece09f4797ff15a115962c0302193f "githalytics.com")](http://githalytics.com/cpldcpu/TinyTouchLib)
-

@@ -12,7 +12,7 @@
  
 #include <avr/io.h>
 #include <util/delay.h>
-#include "tinytouchlib.h"
+#include "TinyTouchLib.h"
 
 int main(void)
 {

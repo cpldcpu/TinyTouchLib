@@ -7,7 +7,7 @@ CFLAGS  = -I. -DDEBUG_LEVEL=0
 CFLAGS += -Wno-deprecated-declarations -D__PROG_TYPES_COMPAT__
 CFLAGS += -Wl,--gc-sections
 CFLAGS += -fdata-sections -ffunction-sections
-OBJECTS = main.o tinytouchlib.o
+OBJECTS = main.o TinyTouchLib.o
 COMPILE = avr-gcc -Wall -Os --std=gnu99 -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 
 
